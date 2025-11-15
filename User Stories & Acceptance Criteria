@@ -1,0 +1,254 @@
+# Password Strength Analyzer - User Stories & Acceptance Criteria
+
+## Epic: Context-Aware Password Strength Analysis System
+
+### User Story 1: Basic Password Strength Evaluation
+**As a** user creating an account  
+**I want to** see real-time feedback on my password strength  
+**So that** I can create a secure password
+
+**Acceptance Criteria:**
+- [ ] Password strength is calculated as user types (real-time)
+- [ ] Strength is displayed with visual indicator (e.g., Weak, Fair, Good, Strong, Very Strong)
+- [ ] Color-coded feedback (red, orange, yellow, light green, dark green)
+- [ ] Strength score updates within 100ms of typing
+- [ ] Analysis includes:
+  - Minimum 8 characters required
+  - Checks for uppercase letters
+  - Checks for lowercase letters
+  - Checks for numbers
+  - Checks for special characters
+  - Evaluates password entropy/complexity
+- [ ] Clear messaging explains why password is weak/strong
+
+**Technical Notes:**
+- Use zxcvbn library for entropy calculation
+- Debounce input to optimize performance
+
+---
+
+### User Story 2: Context-Aware Username Detection
+**As a** security-conscious user  
+**I want to** be warned if my password contains my username  
+**So that** I avoid easily guessable passwords
+
+**Acceptance Criteria:**
+- [ ] System compares password against provided username (case-insensitive)
+- [ ] Warning displayed if username is found in password
+- [ ] Warning displayed if password is found in username
+- [ ] Partial matches detected (e.g., "john" in "john123")
+- [ ] Fuzzy matching detects similar strings (e.g., "j0hn" vs "john")
+- [ ] Password strength score is reduced if username match found
+- [ ] Clear error message: "Password should not contain your username"
+- [ ] Leet-speak variations detected (e.g., "@" for "a", "3" for "e")
+
+**Technical Notes:**
+- Implement Levenshtein distance algorithm (threshold: 70% similarity)
+- Check both directions (password in username, username in password)
+
+---
+
+### User Story 3: Company/Domain Name Detection
+**As a** system administrator  
+**I want to** prevent users from using the company name in passwords  
+**So that** corporate passwords are harder to guess in targeted attacks
+
+**Acceptance Criteria:**
+- [ ] System accepts company/organization name as input
+- [ ] System accepts domain name as input
+- [ ] Password is checked against company name (case-insensitive)
+- [ ] Password is checked against domain name without TLD (e.g., "acme" from "acme.com")
+- [ ] Warning displayed if company/domain name found in password
+- [ ] Partial matches detected
+- [ ] Password strength reduced if match found
+- [ ] Clear error message: "Password should not contain company or domain name"
+- [ ] Both forward and reverse checks performed
+
+**Technical Notes:**
+- Extract domain from email format (before @ symbol)
+- Strip TLDs (.com, .org, .io, etc.)
+- Use fuzzy matching with 70% threshold
+
+---
+
+### User Story 4: Breach Database Check (HIBP Integration)
+**As a** security-conscious user  
+**I want to** know if my password has been exposed in data breaches  
+**So that** I can choose a password that hasn't been compromised
+
+**Acceptance Criteria:**
+- [ ] Password is checked against Have I Been Pwned API
+- [ ] Check uses k-anonymity model (only first 5 chars of SHA-1 hash sent)
+- [ ] Results displayed within 2 seconds of user stopping typing
+- [ ] Clear warning if password found in breach database
+- [ ] Message shows number of times password was breached
+- [ ] Strength score severely reduced if password is breached
+- [ ] Visual indicator (⚠️ icon) for breached passwords
+- [ ] "Checking..." loading state while API call in progress
+- [ ] Graceful error handling if API is unavailable
+- [ ] No plain text password sent over network
+
+**Technical Notes:**
+- SHA-1 hash password on client side
+- Send only first 5 characters to HIBP API
+- Match remaining hash characters locally
+- Implement timeout (5 seconds)
+- Cache results to reduce API calls
+
+---
+
+### User Story 5: Common Password Pattern Detection
+**As a** user  
+**I want to** be warned about common password patterns  
+**So that** I avoid predictable passwords
+
+**Acceptance Criteria:**
+- [ ] Detects sequential characters (e.g., "abc", "123", "qwerty")
+- [ ] Detects repeated characters (e.g., "aaa", "111")
+- [ ] Detects keyboard patterns (e.g., "qwerty", "asdf", "1qaz")
+- [ ] Detects date patterns (e.g., "2024", "12/25/1990")
+- [ ] Detects common words from dictionary
+- [ ] Warning displayed for each detected pattern
+- [ ] Specific feedback: "Avoid sequential characters" or "Avoid repeated characters"
+- [ ] Password strength reduced based on pattern detection
+
+**Technical Notes:**
+- Build regex patterns for common sequences
+- Use common password dictionary (top 10,000)
+- Check for l33t speak variations
+
+---
+
+### User Story 6: Real-Time Feedback & Suggestions
+**As a** user creating a password  
+**I want to** receive helpful suggestions to improve my password  
+**So that** I can quickly create a strong, secure password
+
+**Acceptance Criteria:**
+- [ ] Suggestions displayed in real-time as user types
+- [ ] Specific, actionable recommendations provided:
+  - "Add uppercase letters"
+  - "Add numbers"
+  - "Add special characters (!@#$%)"
+  - "Make it longer (at least 12 characters recommended)"
+- [ ] Positive feedback when requirements met: "✓ Good length"
+- [ ] Estimated time to crack displayed (e.g., "Would take centuries to crack")
+- [ ] Suggestions disappear once requirement is met
+- [ ] Maximum of 3-4 suggestions shown at once (prioritized)
+
+**Technical Notes:**
+- Use zxcvbn's crack time estimation
+- Prioritize suggestions by impact on security
+
+---
+
+### User Story 7: Password Visibility Toggle
+**As a** user  
+**I want to** toggle password visibility  
+**So that** I can verify I typed my password correctly
+
+**Acceptance Criteria:**
+- [ ] Eye icon button next to password field
+- [ ] Clicking toggles between masked and visible password
+- [ ] Icon changes to indicate current state (eye/eye-slash)
+- [ ] Keyboard shortcut supported (Ctrl/Cmd + Shift + V)
+- [ ] Accessible with screen readers
+- [ ] Works on mobile devices
+
+---
+
+### User Story 8: Password Requirements Display
+**As a** user  
+**I want to** see password requirements upfront  
+**So that** I know what is expected before I start typing
+
+**Acceptance Criteria:**
+- [ ] Requirements checklist displayed near password field
+- [ ] Each requirement marked with ✗ or ✓ as user types
+- [ ] Requirements include:
+  - Minimum length
+  - Character type requirements
+  - Context-aware restrictions (username, company)
+  - Not in breach database
+- [ ] Visual progress indicator (e.g., 4/6 requirements met)
+- [ ] All requirements must be met to submit form
+- [ ] Requirements are configurable by organization
+
+---
+
+### User Story 9: Accessibility & Responsiveness
+**As a** user with accessibility needs  
+**I want to** use the password analyzer with assistive technology  
+**So that** I can create secure passwords independently
+
+**Acceptance Criteria:**
+- [ ] Fully keyboard navigable (Tab, Enter, Escape)
+- [ ] ARIA labels on all interactive elements
+- [ ] Screen reader announces strength changes
+- [ ] Screen reader announces warnings and errors
+- [ ] Sufficient color contrast (WCAG AA compliant)
+- [ ] Text alternatives for visual indicators
+- [ ] Works on mobile devices (iOS, Android)
+- [ ] Responsive design for all screen sizes
+- [ ] No reliance on color alone for information
+
+---
+
+### User Story 10: Performance & Error Handling
+**As a** system administrator  
+**I want to** ensure the password analyzer performs reliably  
+**So that** users have a smooth experience without delays or errors
+
+**Acceptance Criteria:**
+- [ ] Analysis completes within 100ms for basic checks
+- [ ] HIBP API check completes within 2 seconds
+- [ ] Debounced input (300ms) to reduce unnecessary calculations
+- [ ] Graceful degradation if HIBP API unavailable
+- [ ] Clear error messages for network failures
+- [ ] No blocking of user input during API calls
+- [ ] Rate limiting on API calls (max 1 per second)
+- [ ] Loading states for async operations
+- [ ] Works offline (except breach checking)
+- [ ] Browser compatibility (Chrome, Firefox, Safari, Edge)
+
+---
+
+## Non-Functional Requirements
+
+### Security
+- No passwords stored or logged
+- All breach checks use k-anonymity
+- HTTPS required for production
+- No sensitive data in URLs or query parameters
+- Client-side hashing for breach checks
+
+### Performance
+- Initial load time < 2 seconds
+- Password analysis < 100ms
+- HIBP check < 2 seconds
+- Support 1000 concurrent users
+
+### Privacy
+- No analytics on password content
+- No third-party tracking
+- GDPR compliant
+- Clear privacy policy
+
+### Scalability
+- Stateless design for horizontal scaling
+- API rate limiting per IP/user
+- Caching strategy for common checks
+
+---
+
+## Definition of Done
+- [ ] All acceptance criteria met
+- [ ] Unit tests written and passing (>80% coverage)
+- [ ] Integration tests for HIBP API
+- [ ] Accessibility audit passed (WCAG AA)
+- [ ] Cross-browser testing completed
+- [ ] Documentation written
+- [ ] Security review completed
+- [ ] Performance benchmarks met
+- [ ] Deployed to staging environment
+- [ ] User acceptance testing passed
