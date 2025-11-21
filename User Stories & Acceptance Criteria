@@ -1,4 +1,4 @@
-# Password Strength Analyzer - User Stories & Acceptance Criteria
+#Password Strength Analyzer - User Stories & Acceptance Criteria
 
 ## Epic: Context-Aware Password Strength Analysis System
 
@@ -25,7 +25,6 @@
 - Use zxcvbn library for entropy calculation
 - Debounce input to optimize performance
 
----
 
 ### User Story 2: Context-Aware Username Detection
 **As a** security-conscious user  
@@ -176,25 +175,9 @@
 
 ---
 
-### User Story 9: Accessibility & Responsiveness
-**As a** user with accessibility needs  
-**I want to** use the password analyzer with assistive technology  
-**So that** I can create secure passwords independently
 
-**Acceptance Criteria:**
-- [ ] Fully keyboard navigable (Tab, Enter, Escape)
-- [ ] ARIA labels on all interactive elements
-- [ ] Screen reader announces strength changes
-- [ ] Screen reader announces warnings and errors
-- [ ] Sufficient color contrast (WCAG AA compliant)
-- [ ] Text alternatives for visual indicators
-- [ ] Works on mobile devices (iOS, Android)
-- [ ] Responsive design for all screen sizes
-- [ ] No reliance on color alone for information
 
----
-
-### User Story 10: Performance & Error Handling
+### User Story 9: Performance & Error Handling
 **As a** system administrator  
 **I want to** ensure the password analyzer performs reliably  
 **So that** users have a smooth experience without delays or errors
@@ -211,44 +194,4 @@
 - [ ] Works offline (except breach checking)
 - [ ] Browser compatibility (Chrome, Firefox, Safari, Edge)
 
----
 
-## Non-Functional Requirements
-
-### Security
-- No passwords stored or logged
-- All breach checks use k-anonymity
-- HTTPS required for production
-- No sensitive data in URLs or query parameters
-- Client-side hashing for breach checks
-
-### Performance
-- Initial load time < 2 seconds
-- Password analysis < 100ms
-- HIBP check < 2 seconds
-- Support 1000 concurrent users
-
-### Privacy
-- No analytics on password content
-- No third-party tracking
-- GDPR compliant
-- Clear privacy policy
-
-### Scalability
-- Stateless design for horizontal scaling
-- API rate limiting per IP/user
-- Caching strategy for common checks
-
----
-
-## Definition of Done
-- [ ] All acceptance criteria met
-- [ ] Unit tests written and passing (>80% coverage)
-- [ ] Integration tests for HIBP API
-- [ ] Accessibility audit passed (WCAG AA)
-- [ ] Cross-browser testing completed
-- [ ] Documentation written
-- [ ] Security review completed
-- [ ] Performance benchmarks met
-- [ ] Deployed to staging environment
-- [ ] User acceptance testing passed
