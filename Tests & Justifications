@@ -1,0 +1,41 @@
+Unit Testing
+Purpose & Justification
+Unit tests verify individual functions and components in isolation. For a password analyzer, this is critical because:
+
+- [ ]Password strength algorithms must be deterministic and accurate
+- [ ]String comparison functions need precise edge case handling
+- [ ]Hash generation must be cryptographically correct
+- [ ]Small bugs in security logic can have major consequences
+
+Testing Methods
+1.1 Password Strength Calculation
+What to Test:
+
+- [ ]Length validation
+- [ ]Character type detection (uppercase, lowercase, numbers, special chars)
+- [ ]Entropy calculation
+- [ ]Pattern recognition (sequences, repetitions)
+
+1.2 Context-Aware Detection
+What to Test:
+
+- [ ]Username detection in password
+- [ ]Company name detection
+- [ ]Fuzzy matching (Levenshtein distance)
+- [ ]Case-insensitive matching
+- [ ]Leet-speak detection
+
+1.3 Hash Generation (SHA-1 for HIBP)
+What to Test:
+
+- [ ]Correct SHA-1 hash generation
+- [ ]First 5 characters extraction
+- [ ]Uppercase formatting
+
+1.4 Pattern Detection
+What to Test:
+
+- [ ]Sequential patterns (abc, 123, qwerty)
+- [ ]Keyboard patterns (asdf, zxcv)
+- [ ]Date patterns (2024, 12/25/1990)
+- [ ]Common dictionary words
