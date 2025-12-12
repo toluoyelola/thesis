@@ -1,4 +1,5 @@
 A context aware password analyser
+This project aims to provide its users will secure passwords to secure their digital assets
 
 
 Libraries and APIs to be used
